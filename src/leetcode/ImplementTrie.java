@@ -8,6 +8,16 @@ package leetcode;
  * Date : Sep, 2017
  * Description : TODO
  */
+class TrieNode {
+    public char val;
+    public boolean isWord; 
+    public TrieNode[] children = new TrieNode[26];
+    public TrieNode() {}
+    TrieNode(char c){
+        TrieNode node = new TrieNode();
+        node.val = c;
+    }
+}
 public class ImplementTrie {
 
     /**
@@ -27,9 +37,10 @@ public class ImplementTrie {
     public void insert(String word) {
         TrieNode node = root;
         for (int i = 0; i < word.length(); i++) {
-            int j = word.charAt(i) - 'a';
+            char c = word.charAt(i);
+            int j = c- 'a';
             if (node.children[j] == null) {
-                node.children[j] = new TrieNode();
+                node.children[j] = new TrieNode(c);
             }
             node = node.children[j];
         }
