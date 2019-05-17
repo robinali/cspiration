@@ -40,6 +40,20 @@ public class ClimbingStairs {
             return climbStairs(n - 1) + climbStairs(n - 2);
         }
     }
+    
+    private int[] mem;
+    public int climbStairs1(int n) {
+        // Time: O(n) Space: O(n)
+        if(n <= 1) return 1;
+        mem = new int[n + 1];
+        mem[0] = 0;
+        mem[1] = 1;
+        mem[2] = 1;
+        if(mem[n] == 0) {
+            mem[n] = mem[n - 1] + mem[n - 2];
+        }
+        return climbStairs(n - 1) + climbStairs(n - 2);
+    }
 
     public int climbStairs2(int n) {
         if (n <= 1) return 1;
