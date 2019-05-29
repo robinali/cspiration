@@ -19,17 +19,21 @@ public class ConvertSortedArraytoBinarySearchTree {
      * @param nums
      * @return
      */
+    // 108
+    // Reference: leetcode caikehe
+    // https://leetcode.com/problems/convert-sorted-array-to-binary-search-tree/discuss/35356/Java-dfs-solution.
+    // Time O(n) Space: O(n)
     public TreeNode sortedArrayToBST(int[] nums) {
-        if (nums == null || nums.length == 0) return null;
-        return helper(nums, 0, nums.length - 1);
+        if(nums == null || nums.length == 0) return null;
+        return sortedArrayToBST( nums, 0, nums.length );
     }
-
-    public TreeNode helper(int[] nums, int left, int right) {  // space : O(logn);
-        if (left > right) return null;
-        int mid = (right - left) / 2 + left;
-        TreeNode node = new TreeNode(nums[mid]);
-        node.left = helper(nums, left, mid - 1);
-        node.right = helper(nums, mid + 1, right);
+    
+    private TreeNode sortedArrayToBST(int[] nums, int start, int len) {
+        if(len == 0) return null;
+        int half = len / 2;
+        TreeNode node = new TreeNode( nums[start + half] );
+        node.left = sortedArrayToBST(nums, start, half);
+        node.right = sortedArrayToBST(nums, start + half + 1, len - half - 1);
         return node;
     }
 }
