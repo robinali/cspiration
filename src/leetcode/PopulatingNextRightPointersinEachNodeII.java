@@ -32,7 +32,7 @@ public class PopulatingNextRightPointersinEachNodeII {
     public void connect(TreeLinkNode root) {
         TreeLinkNode head = null;
         TreeLinkNode pre = null;
-        TreeLinkNode cur = null;
+        TreeLinkNode cur = root;
         while (cur != null) {
             while (cur != null) {
                 if (cur.left != null) {
