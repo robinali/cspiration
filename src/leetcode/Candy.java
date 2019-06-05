@@ -46,7 +46,7 @@ public class Candy {
             }
         }
         for (int i = candies.length - 2; i >= 0; i --) {
-            if (ratings[i] > ratings[i - 1]) {
+            if (ratings[i] > ratings[i + 1]) {
                 candies[i] = Math.max(candies[i], candies[i + 1] + 1);
             }
         }
@@ -58,8 +58,7 @@ public class Candy {
         return res;
     }
     
-    // Reference: Leetcode Solution 3
-    
+    // Reference: Leetcode Solution 3    
     private int count(int n) {
         return(n * (n + 1)) / 2;
     }
