@@ -16,50 +16,52 @@ public class CloneGraph {
      * space : O(m)
      */
 
-    HashMap<UndirectedGraphNode, UndirectedGraphNode> map = new HashMap<>();
-
-    public UndirectedGraphNode cloneGraph(UndirectedGraphNode node) {
-        return helper(node);
+    Map<Node, Node> map = new HashMap<>();
+    
+    public Node cloneGraph(Node node) {
+        return cloneGraphRec(node);
     }
-    public UndirectedGraphNode helper(UndirectedGraphNode node) {
-        if (node == null) return null;
-        if (map.containsKey(node)) return map.get(node);
-        UndirectedGraphNode dup = new UndirectedGraphNode(node.label);
-        map.put(node, dup);
-        for (UndirectedGraphNode neighboer : node.neighbors) {
-            UndirectedGraphNode clone = helper(neighboer);
-            dup.neighbors.add(clone);
+    
+    private Node cloneGraphRec(Node node) {
+        if(node == null) return null;
+        if(map.containsKey(node)) return map.get(node);
+        List<Node> neighbors = new ArrayList<>();
+        Node clone = new Node(node.val, neighbors);
+        map.put(node, clone);
+        for(Node neighbor: node.neighbors) {
+            neighbors.add(cloneGraphRec(neighbor));
         }
-        return dup;
+        return clone;
     }
 
-    public UndirectedGraphNode cloneGraph2(UndirectedGraphNode node) {
-        if (node == null) return node;
-        List<UndirectedGraphNode> nodes = getNodes(node);
-        HashMap<UndirectedGraphNode, UndirectedGraphNode> map = new HashMap<>();
-
-        for (UndirectedGraphNode cur : nodes) {
-            map.put(cur, new UndirectedGraphNode(cur.label));
+    public Node cloneGraph2(Node node) {
+        if(node == null) return node;
+        List<Node> nodes = getNodes(node);
+        HashMap<Node, Node> map = new HashMap<>();
+        
+        for(Node cur : nodes) {
+            List<Node> neighbors = new ArrayList<>();
+            map.put(cur, new Node(cur.val, neighbors));
         }
-        for (UndirectedGraphNode cur : nodes) {
-            UndirectedGraphNode newNode = map.get(cur);
-            for (UndirectedGraphNode neighbor : cur.neighbors) {
+        for(Node cur: nodes) {
+            Node newNode = map.get(cur);
+            for(Node neighbor : cur.neighbors) {
                 newNode.neighbors.add(map.get(neighbor));
             }
         }
         return map.get(node);
     }
-
-    public List<UndirectedGraphNode> getNodes(UndirectedGraphNode node) {
-        Queue<UndirectedGraphNode> queue = new LinkedList<>();
-        HashSet<UndirectedGraphNode> set = new HashSet<>();
+    
+    private List<Node> getNodes(Node node) {
+        Queue<Node> queue = new LinkedList<>();
+        HashSet<Node> set = new HashSet<>();
         queue.offer(node);
         set.add(node);
-
-        while (!queue.isEmpty()) {
-            UndirectedGraphNode cur = queue.poll();
-            for (UndirectedGraphNode neighbor : cur.neighbors) {
-                if (!set.contains(neighbor)) {
+        
+        while(!queue.isEmpty()) {
+            Node cur = queue.poll();
+            for(Node neighbor : cur.neighbors) {
+                if(!set.contains(neighbor)) {
                     set.add(neighbor);
                     queue.offer(neighbor);
                 }
