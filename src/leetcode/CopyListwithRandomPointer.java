@@ -55,8 +55,9 @@ public class CopyListwithRandomPointer {
      */
     public Node copyRandomList2(Node head) {
         // Time: O(n) Space: O(1)
-        Node cur = head;
+        if(head == null) return head;
         
+        Node cur = head;        
         //next copy
         while(cur != null) {
             Node copy = new Node(cur.val);
