@@ -28,21 +28,23 @@ public class InsertInterval {
      * @param newInterval
      * @return
      */
-    public List<Interval> insert(List<Interval> intervals, Interval newInterval) {
-        if (newInterval == null) return intervals;
-        List<Interval> res = new ArrayList<>();
+    public int[][] insert(int[][] intervals, int[] newInterval) {
+        if(newInterval == null) return intervals;
+        List<int[]> res = new ArrayList<>();
         int i = 0;
-        while (i < intervals.size() && intervals.get(i).end < newInterval.start) {
-            res.add(intervals.get(i++));
+        while(i < intervals.length && intervals[i][1] < newInterval[0]) {
+            res.add(intervals[i++]);
         }
-        while (i < intervals.size() && intervals.get(i).start <= newInterval.end) {
-            newInterval.start = Math.min(newInterval.start, intervals.get(i).start);
-            newInterval.end = Math.max(newInterval.end, intervals.get(i).end);
+        while(i < intervals.length && intervals[i][0] <= newInterval[1]) {
+            newInterval[0] = Math.min(newInterval[0], intervals[i][0]);
+            newInterval[1] = Math.max(newInterval[1], intervals[i][1]);
+            i++;
         }
         res.add(newInterval);
-        while (i < intervals.size()) {
-            res.add(intervals.get(i));
+        while(i < intervals.length) {
+            res.add(intervals[i++]);
         }
-        return res;
+        
+        return res.toArray(new int[res.size()][2]);
     }
 }
