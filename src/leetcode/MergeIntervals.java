@@ -27,22 +27,22 @@ public class MergeIntervals {
      * @param intervals
      * @return
      */
-    public List<Interval> merge(List<Interval> intervals) {
-        if (intervals == null || intervals.size() <= 1) return intervals;
-        Collections.sort(intervals, (a, b) -> a.start - b.start);
-        int start = intervals.get(0).start;
-        int end = intervals.get(0).end;
-        List<Interval> res = new ArrayList<>();
-        for (Interval interval : intervals) {
-            if (interval.start <= end) {
-                end = Math.max(end, interval.end);
+        public int[][] merge(int[][] intervals) {
+        if(intervals == null || intervals.length <= 1) return intervals;
+        Arrays.sort(intervals, (a, b) -> a[0] - b[0]);
+        int start = intervals[0][0];
+        int end = intervals[0][1];
+        List<int[]> res = new ArrayList<>();
+        for(int[] interval : intervals) {
+            if(interval[0] <= end) {
+                end = Math.max(end, interval[1]);
             } else {
-                res.add(new Interval(start, end));
-                start = interval.start;
-                end = interval.end;
+                res.add(new int[]{start, end});
+                start = interval[0];
+                end = interval[1];
             }
         }
-        res.add(new Interval(start, end));
-        return res;
+        res.add(new int[]{start, end});
+        return res.toArray(new int[res.size()][2]);
     }
 }
