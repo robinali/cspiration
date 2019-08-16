@@ -26,10 +26,11 @@ public class MeetingRooms {
      * @param intervals
      * @return
      */
-    public boolean canAttendMeetings(Interval[] intervals) {
-        Arrays.sort(intervals, (x, y) -> x.start - y.start);
-        for (int i = 1; i <intervals.length; i++) {
-            if (intervals[i - 1].end > intervals[i].start) {
+    class Solution {
+    public boolean canAttendMeetings(int[][] intervals) {
+        Arrays.sort(intervals, (a, b) -> a[0] - b[0]);
+        for(int i = 1; i < intervals.length; i++) {
+            if(intervals[i - 1][1] > intervals[i][0]) {
                 return false;
             }
         }
