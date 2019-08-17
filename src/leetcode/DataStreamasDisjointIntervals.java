@@ -12,7 +12,8 @@ import java.util.TreeMap;
  * Date : Jan, 2018
  * Description : 352. Data Stream as Disjoint Intervals
  */
-public class DataStreamasDisjointIntervals {
+
+    public class SummaryRanges {
 
     /**
 
@@ -23,33 +24,32 @@ public class DataStreamasDisjointIntervals {
      val = 0
 
      */
+    private TreeMap<Integer, int[]> tm;
 
-    TreeMap<Integer, Interval> treeMap;
-
-    public DataStreamasDisjointIntervals() {
-        treeMap = new TreeMap<>();
+    /** Initialize your data structure here. */
+    public SummaryRanges() {
+        tm = new TreeMap<>();
     }
 
     // time : O(logn)
     public void addNum(int val) {
-        if (treeMap.containsKey(val)) return;
-        Integer lowerKey = treeMap.lowerKey(val);
-        Integer higherKey = treeMap.higherKey(val);
-        if (lowerKey != null && higherKey != null && treeMap.get(lowerKey).end + 1 == val
-                && val + 1 == treeMap.get(higherKey).start) {
-            treeMap.get(lowerKey).end = treeMap.get(higherKey).end;
-            treeMap.remove(higherKey);
-        } else if (lowerKey != null && val <= treeMap.get(lowerKey).end + 1) {
-            treeMap.get(lowerKey).end = Math.max(treeMap.get(lowerKey).end, val);
-        } else if (higherKey != null && treeMap.get(higherKey).start - 1 == val) {
-            treeMap.put(val, new Interval(val, treeMap.get(higherKey).end));
-            treeMap.remove(higherKey);
+        if(tm.containsKey(val)) return;
+        Integer lk = tm.lowerKey(val);
+        Integer hk = tm.higherKey(val);
+        if(lk != null && hk != null && tm.get(lk)[1] + 1 == val && tm.get(hk)[0] - 1 == val) {
+            tm.get(lk)[1] = tm.get(hk)[1];
+            tm.remove(hk);
+        } else if(lk != null && tm.get(lk)[1] + 1 >= val) {
+            tm.get(lk)[1] = Math.max(tm.get(lk)[1], val);
+        } else if(hk != null && tm.get(hk)[0] - 1 == val) {
+            tm.put(val, new int[]{val, tm.get(hk)[1]});
+            tm.remove(hk);
         } else {
-            treeMap.put(val, new Interval(val, val));
+            tm.put(val, new int[]{val, val});
         }
     }
-
-    public List<Interval> getIntervals() {
-        return new ArrayList<>(treeMap.values());
+    
+    public int[][] getIntervals() {
+        return tm.values().toArray(new int[tm.size()][2]);
     }
 }
