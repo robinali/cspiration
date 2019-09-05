@@ -30,6 +30,36 @@ public class StrobogrammaticNumberII {
      * @param n
      * @return
      */
+    
+    public List<String> findStrobogrammatic0(int n) {
+        if(n == 0) return new ArrayList(Arrays.asList(""));
+        
+        List<String>[] dp = new List[n + 1];
+        for(int i = 0; i <= n; i++) {
+            dp[i] = new ArrayList<>();
+        }
+        dp[0].add("");
+        dp[1].add("0");
+        dp[1].add("1");
+        dp[1].add("8");
+        
+        int i = n % 2 == 0 ? 0 : 1;
+        while(i != n) {
+            for(String str : dp[i]) {
+                if(i + 2 != n) {
+                    dp[i + 2].add("0" + str + "0");
+                }
+                dp[i + 2].add("1" + str + "1");
+                dp[i + 2].add("6" + str + "9");
+                dp[i + 2].add("8" + str + "8");
+                dp[i + 2].add("9" + str + "6");
+            }
+            i += 2;
+        }
+        return dp[n];
+    }
+    
+    
     public List<String> findStrobogrammatic(int n) {
         return helper(n, n);
     }
