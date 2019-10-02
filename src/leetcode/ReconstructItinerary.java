@@ -51,19 +51,19 @@ public class ReconstructItinerary {
     HashMap<String, PriorityQueue<String>> map;
     List<String> res;
 
-    public List<String> findItinerary(String[][] tickets) {
+    public List<String> findItinerary(List<List<String>> tickets) {
         map = new HashMap<>();
         res = new LinkedList<>();
-        for (String[] ticket : tickets) {
-            map.computeIfAbsent(ticket[0], k -> new PriorityQueue<>()).add(ticket[1]);
+        for(List<String> ticket : tickets) {
+            map.computeIfAbsent(ticket.get(0), k -> new PriorityQueue<>()).add(ticket.get(1));
         }
-        helper("JFK");
+        findItinerary("JFK");
         return res;
     }
-
-    private void helper(String airport) {
-        while (map.containsKey(airport) && !map.get(airport).isEmpty()) {
-            helper(map.get(airport).poll());
+    
+    private void findItinerary(String airport) {
+        while(map.containsKey(airport) && !map.get(airport).isEmpty()) {
+            findItinerary(map.get(airport).poll());
         }
         res.add(0, airport);
     }

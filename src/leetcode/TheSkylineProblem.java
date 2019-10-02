@@ -17,10 +17,10 @@ public class TheSkylineProblem {
      * @param buildings
      * @return
      */
-    public List<int[]> getSkyline(int[][] buildings) {
-        List<int[]> res = new ArrayList<>();
+    public List<List<Integer>> getSkyline(int[][] buildings) {
+        List<List<Integer>> res = new ArrayList<>();
         List<int[]> heights = new ArrayList<>();
-        for(int[] b:buildings) {
+        for(int[] b : buildings) {
             heights.add(new int[]{b[0], -b[2]});
             heights.add(new int[]{b[1], b[2]});
         }
@@ -28,7 +28,7 @@ public class TheSkylineProblem {
         PriorityQueue<Integer> pq = new PriorityQueue<>((a, b) -> (b - a));
         pq.offer(0);
         int prev = 0;
-        for(int[] h:heights) {
+        for(int[] h: heights) {
             if(h[1] < 0) {
                 pq.offer(-h[1]);
             } else {
@@ -36,7 +36,10 @@ public class TheSkylineProblem {
             }
             int cur = pq.peek();
             if(prev != cur) {
-                res.add(new int[]{h[0], cur});
+                List<Integer> list = new ArrayList<>();
+                list.add(h[0]);
+                list.add(cur);
+                res.add(list);
                 prev = cur;
             }
         }
