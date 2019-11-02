@@ -58,7 +58,7 @@ public class MaximumProductofWordLengths {
             }
             bytes[i] = val;
         }
-        for (int i = 0; i < bytes.length; i++) {
+        for (int i = 0; i < bytes.length - 1; i++) {
             for (int j = i + 1; j < bytes.length; j++) {
                 if ((bytes[i] & bytes[j]) == 0) {
                     res = Math.max(res, words[i].length() * words[j].length());
