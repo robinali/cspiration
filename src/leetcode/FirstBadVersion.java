@@ -31,16 +31,15 @@ public class FirstBadVersion {
     public int firstBadVersion(int n) {
         int start = 1;
         int end = n;
-        while (start + 1 < end) {
+        while(start < end) {
             int mid = (end - start) / 2 + start;
-            if (isBadVersion(mid)) {
+            if(!isBadVersion(mid)) {
+                start = mid + 1;
+            } else {
                 end = mid;
-            } else start = mid;
+            }
         }
-        if (isBadVersion(start)) {
-            return start;
-        }
-        return end;
+        return start;
     }
 
     public boolean isBadVersion(int mid) {
