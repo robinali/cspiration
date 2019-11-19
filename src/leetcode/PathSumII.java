@@ -48,4 +48,38 @@ public class PathSumII {
         helper(res, list, root.right, sum - root.val);
         list.remove(list.size() - 1);
     }
+    
+    public List<List<Integer>> pathSum2(TreeNode root, int sum) {
+        List<List<Integer>> res = new ArrayList<>();
+        if(root == null) return res;
+        List<TreeNode> list = new ArrayList<>();
+        TreeNode cur = root, pre = null;
+        int val = 0;
+        while(cur != null || !list.isEmpty()) {
+            while(cur != null || !list.isEmpty()) {
+                while(cur != null) {
+                    list.add(cur);
+                    val += cur.val;
+                    cur = cur.left;
+                }
+                cur = list.get(list.size() - 1);
+                if(cur.left == null && cur.right == null && val == sum) {
+                    List<Integer> v = new ArrayList<>();
+                    for(TreeNode n : list) {
+                        v.add(n.val);
+                    }
+                    res.add(v);
+                }
+                if(cur.right != null && cur.right != pre){
+                    cur = cur.right;
+                } else {
+                    pre = cur;
+                    val -= cur.val;
+                    list.remove(list.size() - 1);
+                    cur = null;
+                }
+            }
+        }
+        return res;
+    }
 }
