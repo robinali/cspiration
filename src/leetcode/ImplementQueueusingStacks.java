@@ -94,4 +94,45 @@ class ImplementQueueusingStacks2 {
     public boolean empty() {
         return s1.isEmpty();
     }
+    
+    class MyQueue {
+    
+    Deque<Integer> input = null;
+    Deque<Integer> output = null;
+
+    /** Initialize your data structure here. */
+    public MyQueue() {
+        input = new ArrayDeque<>();
+        output = new ArrayDeque<>();
+    }
+    
+    /** Push element x to the back of queue. */
+    public void push(int x) {
+        input.push(x);
+    }
+    
+    private void updateOutput() {
+        if(output.isEmpty()) {
+            while(!input.isEmpty()) {
+                output.push(input.pop());
+            }
+        }
+    }
+    
+    /** Removes the element from in front of queue and returns that element. */
+    public int pop() {
+        updateOutput();
+        return output.pop();
+    }
+    
+    /** Get the front element. */
+    public int peek() {
+        updateOutput();
+        return output.peek();        
+    }
+    
+    /** Returns whether the queue is empty. */
+    public boolean empty() {
+        return input.isEmpty() && output.isEmpty();
+    }
 }
